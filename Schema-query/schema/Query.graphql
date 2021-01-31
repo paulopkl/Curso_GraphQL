@@ -1,0 +1,12 @@
+# Entry Points of your API
+type Query {
+    ola: String!
+    currentHour: Date!
+    userLogged: User
+    featuredProduct: Product
+    numbersMegaSena: [Int!]!
+    users: [User]
+    user(id: Int): User
+    profiles: [Profile]
+    profile(id:Int): Profile
+}

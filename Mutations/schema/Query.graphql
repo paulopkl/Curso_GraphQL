@@ -1,0 +1,9 @@
+# Entry Points of your API
+type Query {
+    numbersMegaSena: [Int!]!
+    users: [User]
+    # user(id: Int): User
+    user(filter: UserFilter!): User
+    profiles: [Profile]
+    profile(id:Int): Profile
+}

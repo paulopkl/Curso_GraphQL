@@ -1,0 +1,160 @@
+const { ApolloServer, gql } = require('apollo-server');
+
+const users = [
+    {
+        id: 1,
+        name: 'João Silva',
+        email: 'jsilva@gmail.com',
+        age: 29,
+        profile_id: 1
+    },
+    {
+        id: 2,
+        name: 'Rafael Junior',
+        email: 'rafajun@wemail.com',
+        age: 31,
+        profile_id: 2
+    },
+    {
+        id: 3,
+        name: 'Daniela Smith',
+        email: 'danismi@umail.com',
+        age: 24,
+        profile_id: 1
+    }
+];
+
+const profiles = [
+    {
+        id: 1,
+        name: 'Comum'
+    },
+    {
+        id: 2,
+        name: 'Administrator'
+    }
+];
+
+const type = gql(`
+    scalar Date
+
+    type User {
+        id: Int
+        name: String!
+        email: String!
+        age: Int
+        salary: Float
+        vip: Boolean
+        profile: Profile
+    }
+    
+    type Product {
+        name: String!
+        prize: Float!
+        discount: Float
+        prizeWithDiscount: Float
+    }
+
+    type Profile {
+        id: Int
+        name: String
+    }
+
+    # Entry Points of your API
+    type Query {
+        ola: String!
+        currentHour: Date!
+        userLogged: User
+        featuredProduct: Product
+        numbersMegaSena: [Int!]!
+        users: [User]
+        user(id: Int): User
+        profiles: [Profile]
+        profile(id:Int): Profile
+    }
+`);
+
+const resol = {
+    User: {
+        salary(This) {
+            return This.salary_real;
+        },
+        profile(This) {
+            return profiles.find(p => p.id === This.profile_id) 
+                ? profiles.find(p => p.id === This.profile_id) 
+                : null;
+        }
+    },
+
+    Product: {
+        prizeWithDiscount(This) {
+            if (This.discount) return (This.prize * (1 - This.discount)).toFixed(2);
+            else return This.prize;
+        }
+    },
+
+    Query: {
+        ola: () => {
+            return 'Basta retornar uma String';
+        },
+
+        currentHour: () => {
+            const date = new Date();
+            const hour = date.getHours();
+            return date;
+        },
+
+        userLogged: This => {
+            console.log(This);
+            return {
+                id: 1,
+                name: 'Ana da Web',
+                email: 'andadaweb@hotmail.com',
+                age: 23,
+                salary_real: 1234.56,
+                // salary: 6543.21,
+                vip: true
+            }
+        },
+
+        featuredProduct: () => {
+            return {
+                name: 'Notebook Gamer',
+                prize: 4890.89,
+                discount: 0.5
+            }
+        },
+
+        numbersMegaSena: () => {
+            const crescente = (a, b) => a - b;
+            return Array(6)
+                .fill(0)
+                .map(n => parseInt(Math.random() * 60 + 1))
+                .sort(crescente);
+        },
+
+        users: () => {
+            return users;
+        },
+
+        user: (_, { id }) => {
+            const selected = users
+                .find(u => u.id === id);
+            return selected ? selected : null;
+        },
+
+        profiles: () => {
+            return profiles;
+        },
+
+        profile: (_, { id }) => {
+            return profiles.find(p => p.id === id) ? profiles.find(p => p.id === id) : null;
+        }
+    }
+}
+
+const server = new ApolloServer({ typeDefs: type, resolvers: resol });
+const port = 3333;
+
+server.listen(port)
+    .then(s => console.log(`Server is running in ${s.port}`));

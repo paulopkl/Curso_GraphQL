@@ -1,0 +1,13 @@
+type Mutation {
+    # User Mutations:
+    # newUser(name: String, email: String, age: Int): User!
+    newUser(data: UserInput!): User!
+    # alterUser(id: Int name: String email: String, age: Int): User
+    alterUser(filter: UserFilter! data: UserInput!): User
+    deleteUser(filter: UserFilter!): User
+
+    # Profile Mutations:
+    newProfile(data: ProfileInput!): Profile!
+    deleteProfile(filter: ProfileFilter!): Profile
+    alterProfile(filter: ProfileFilter! data: ProfileInput!): Profile
+}
