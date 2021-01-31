@@ -27,3 +27,5 @@ db('profiles')
     // .first() // Pick the first element of an Array
         .then(res => console.log(res))
         .finally(() => db.destroy());
+
+console.log('End!');
