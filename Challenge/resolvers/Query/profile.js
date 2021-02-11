@@ -1,11 +1,16 @@
 const db = require('../../config/db');
 
 module.exports = {
-    profiles: async () => {
-        // implementar
-    },
+    profiles: () => db('profiles'),
 
     profile: async (_, { filter }) => {
-        // implementar
+        if (!filter) return null;
+        const { id, name } = filter;
+
+        let profile = id 
+            ? await db('profiles').where({ id }).first() 
+            : name ? await db('profiles').where({ name }).first() : null;
+
+        return profile;
     }
 }
