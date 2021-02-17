@@ -1,7 +1,10 @@
 const db = require('../../config/db');
 
 module.exports = {
-    profiles: () => db('profiles'),
+    profiles: (obj, args, ctx) => {
+        
+        return db('profiles');
+    },
 
     profile: async (_, { filter }) => {
         if (!filter) return null;

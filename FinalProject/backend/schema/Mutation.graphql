@@ -1,5 +1,6 @@
 type Mutation {
     # User Mutations
+    registerUser(data: UserRegisterInput!): User!
     newUser(data: UserInput!): User!
     removeUser(filter: UserFilter!): User
     alterUser(filter: UserFilter! data: UserInput!): User

@@ -1,11 +1,29 @@
+const bcrypt = require('bcrypt-nodejs');
 const db = require('../../config/db');
 const { profile: getProfile } = require('../Query/profile');
 const { user: getUser } = require('../Query/user');
 
-module.exports = {
+const mutations = {
+    registerUser: async (_, { data }) => {
+        return mutations.newUser(_, {
+            data: {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+            }
+        });
+    },
+
     newUser: async (_, { data }) => {
         try {
             const idsProfiles = [];
+
+            // If don't have defined profile, set it as common
+            if (!data.profiles || !data.profiles.length) {
+                data.profiles = [
+                    { name: 'common' }
+                ];
+            }
 
             if (data.profiles) {
                 for(let profileFilter of data.profiles) {
@@ -14,15 +32,19 @@ module.exports = {
                     if (profile) idsProfiles.push(profile.id);
                 }
 
-                // delete data.profiles;
+                // Encrypt password
+                const salt = bcrypt.genSaltSync(10/* <-- Rounds */);
+                data.password = bcrypt.hashSync(data.password, salt); // Overwrite the password with crypt
+
+                delete data.profiles;
 
                 const [ id ] = await db('users')
-                    // .insert(data);
-                    .insert({
-                        name: data.name,
-                        email: data.email,
-                        password: data.password
-                    });
+                    .insert(data);
+                    // .insert({
+                    //     name: data.name,
+                    //     email: data.email,
+                    //     password: data.password
+                    // });
 
                 for (let profile_id of idsProfiles) {
                     await db('users_profiles')
@@ -95,8 +117,13 @@ module.exports = {
                     }
                 }
 
-                delete data.profiles;
+                if (data.password) {
+                    // Encrypt password
+                    const salt = bcrypt.genSaltSync();
+                    data.password = bcrypt.hashSync(data.password, salt);
+                }
 
+                delete data.profiles;
                 await db('users')
                     .where({ id })
                     .update(data)
@@ -108,3 +135,5 @@ module.exports = {
         }
     }
 }
+
+module.exports = mutations
