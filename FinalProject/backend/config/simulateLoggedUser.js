@@ -18,12 +18,12 @@ const sql = `
 
 const getUser = async profileName => {
     const res = await db.raw(sql, { variable: profileName });
-    console.log(res);
+    // console.log(res);
     return res ? res[0][0] : null; // Primary value of the primary array or Null
 }
 
 module.exports = async req => {
-    const user = await getUser('admin');
+    // const user = await getUser('common');
 
     if (user) {
         const { token } = await getLoggedUser(user);

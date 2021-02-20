@@ -1,12 +1,16 @@
 const db = require('../../config/db');
 
 module.exports = {
-    profiles: (obj, args, ctx) => {
+    profiles: (obj, args, context) => {
+        context && context.validateAdmin();
+        console.log(obj);
         
         return db('profiles');
     },
 
-    profile: async (_, { filter }) => {
+    profile: async (_, { filter }, context) => {
+        context && context.validateAdmin();
+
         if (!filter) return null;
         const { id, name } = filter;
 

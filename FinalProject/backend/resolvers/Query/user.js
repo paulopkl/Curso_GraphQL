@@ -17,10 +17,11 @@ module.exports = {
         return getLoggedUser(user);
     },
 
-    users: async (obj, args, context) => {
+    users: async (parent, args, context) => {
         console.log(context);
-        let users = await db('users')
-            .catch(err => console.error(err));
+        context && context.validateAdmin();
+
+        let users = await db('users').catch(err => console.error(err));
 
         // for(user of users) {
         //     user.profiles = [];
@@ -40,7 +41,9 @@ module.exports = {
         return users;
     },
 
-    user: async (_, { filter }) => {
+    user: async (_, { filter }, context) => {
+        context && context.validateUserFilter(filter);
+
         if (!filter) return null;
         
         const { id, email } = filter;

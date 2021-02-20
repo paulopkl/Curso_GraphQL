@@ -7,7 +7,7 @@ module.exports = async ({ req }) => {
     const auth = req.headers.authorization;
     const tokenOnly = auth && auth.substring(7);
     
-    console.log(auth);
+    // console.log(auth);
 
     let user = null, admin = false;
 
@@ -27,11 +27,18 @@ module.exports = async ({ req }) => {
     return {
         user,
         admin,
-        validateUser() {
+        validateUser() { if (!user) throw err; },
+        validateAdmin() { if (!admin) throw err; },
+        validateUserFilter(filter) {
+            if (admin) return;
+
             if (!user) throw err;
-        },
-        validateUser() {
-            if (!admin) throw err;
+            if (!filter) throw err;
+
+            const { id, email } = filter;
+            if (!id && !email) throw err;
+            if (id && id !== user.id) throw err;
+            if (email && email !== user.email) throw err;
         }
     //     text: "Course GraphQL!",
     //     print() {

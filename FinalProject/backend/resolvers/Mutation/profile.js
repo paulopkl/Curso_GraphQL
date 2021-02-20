@@ -2,7 +2,11 @@ const db = require('../../config/db');
 const { profile: getProfile } = require('../Query/profile');
 
 module.exports = {
-    newProfile: async (_, { data }) => {
+    newProfile: async (_, { data }, context) => {
+        context && context.validateAdmin();
+
+        console.log(_);
+
         try {
             const [ id ] = await db('profiles')
                 .insert(data);
@@ -36,7 +40,9 @@ module.exports = {
         }
     },
     
-    alterProfile: async (_, { filter, data }) => {
+    alterProfile: async (_, { filter, data }, context) => {
+        context && context.validateAdmin();
+
         try {
             const profile = await getProfile(_, { filter });
 
