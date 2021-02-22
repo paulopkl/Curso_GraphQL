@@ -3,57 +3,57 @@
         <v-tabs color="grey lighten-3"
             slider-color="blue">
             <v-tab ripple>
-                Lista
-            </v-tab>
-
-            <v-tab ripple>
-                Consulta
-            </v-tab>
-
-            <v-tab ripple>
-                Novo
-            </v-tab>
-
-            <v-tab ripple>
-                Alterar
+                List
             </v-tab>
             
             <v-tab ripple>
-                Excluir
+                Query
+            </v-tab>
+
+            <v-tab ripple>
+                New
+            </v-tab>
+
+            <v-tab ripple>
+                Alter
+            </v-tab>
+
+            <v-tab ripple>
+                Remove
             </v-tab>
 
             <v-tab-item>
-                <Lista />
+                <List />
             </v-tab-item>
 
             <v-tab-item>
-                <Consulta />
+                <Query />
             </v-tab-item>
 
             <v-tab-item>
-                <Novo />
+                <New />
             </v-tab-item>
             
             <v-tab-item>
-                <Alterar />
+                <Alter />
             </v-tab-item>
             
             <v-tab-item>
-                <Excluir />
+                <Remove />
             </v-tab-item>
         </v-tabs>
     </v-container>
 </template>
 
 <script>
-import Lista from './Lista'
-import Consulta from './Consulta'
-import Novo from './Novo'
-import Alterar from './Alterar'
-import Excluir from './Excluir'
+import List from './List';
+import Query from './Query';
+import New from './New';
+import Alter from './Alter';
+import Remove from './Remove';
 
 export default {
-    components: { Lista, Consulta, Novo, Alterar, Excluir }
+    components: { List, Query, New, Alter, Remove }
 }
 </script>
 

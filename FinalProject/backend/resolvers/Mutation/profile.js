@@ -5,8 +5,6 @@ module.exports = {
     newProfile: async (_, { data }, context) => {
         context && context.validateAdmin();
 
-        console.log(_);
-
         try {
             const [ id ] = await db('profiles')
                 .insert(data);

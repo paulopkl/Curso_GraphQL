@@ -4,13 +4,13 @@
             color="grey lighten-3"
             slider-color="blue">
             <v-tab ripple>
-                Registrar
+                Register
             </v-tab>
             <v-tab ripple>
                 Login
             </v-tab>
             <v-tab-item>
-                <Registrar />
+                <Register />
             </v-tab-item>
             <v-tab-item>
                 <Login />
@@ -20,13 +20,12 @@
 </template>
 
 <script>
-import Registrar from './Registrar'
-import Login from './Login'
+import Register from './Register';
+import Login from './Login';
+
 export default {
-    components: { Registrar, Login }
+    components: { Register, Login }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

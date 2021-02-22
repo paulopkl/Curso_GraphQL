@@ -3,15 +3,15 @@
         <v-layout>
             <v-flex>
                 <v-layout column class="ma-3">
-                    <h1 class="headline">LogIn</h1>
+                    <h1 class="headline">Get Profiles</h1>
                     <v-divider class="mb-3" />
                         <div v-if="errors">
                             <Erros :erros="errors" />
                         </div>
-                        <v-text-field label="E-mail" v-model="user.email" />
-                        <v-text-field label="Password" v-model="user.password" type="password" />
-                        <v-btn color="primary" class="ml-0 mt-3" @click="login">
-                            LogIn
+                        <v-text-field label="ID" v-model.number="profile.id" />
+                        <v-text-field label="Name" v-model="profile.name" />
+                        <v-btn color="primary" class="ml-0 mt-3" @click="consultar">
+                            GET
                         </v-btn>
                 </v-layout>
             </v-flex>
@@ -22,8 +22,7 @@
                     <template v-if="data">
                         <v-text-field label="ID" readonly v-model="data.id" />
                         <v-text-field label="Name" readonly v-model="data.name" />
-                        <v-text-field label="E-mail" readonly v-model="data.email" />
-                        <v-text-field label="Token" readonly v-model="data.token" />
+                        <v-text-field label="Label" readonly v-model="data.label" />
                     </template>
                 </v-layout>
             </v-flex>
@@ -32,60 +31,48 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import Erros from '../comum/Erros';
 import graphql from 'graphql-tag';
+import Erros from '../comum/Erros';
 
 export default {
     components: { Erros },
     data() {
         return {
-            user: {},
+            profile: {},
+            profiles: [],
             data: null,
             errors: null
         }
     },
-    computed: {
-        profiles() {
-            return this.data && this.data.profiles && this.data.profiles.map(p => p.name).join(',');
-        }
-    },
     methods: {
-        ...mapActions(['setUser']),
-        login() {
+        consultar() {
             this.$api.query({
                 query: graphql`
                     query (
-                        $email: String!
-                        $password: String!
+                        $id: Int
+                        $name: String
                     ) {
-                        login(
-                            data: {
-                                email: $email,
-                                password: $password
+                        profile (
+                            filter: {
+                                id: $id
+                                name: $name
                             }
                         ) {
                             id
                             name
-                            email
-                            token
-                            profiles {
-                                name
-                                label
-                            }
+                            label
                         }
                     }
                 `,
                 variables: {
-                    email: this.user.email,
-                    password: this.user.password
+                    id: this.profile.id,
+                    name: this.profile.name,
                 }
             })
             .then(result => {
-                this.data = result.data.login;
-                this.user = {};
+                this.data = result.data.profile;
+                this.profile = {};
                 this.errors = null;
-                this.setUser(this.data);
             })
             .catch(err => {
                 this.errors = err;
@@ -95,4 +82,6 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+
+</style>

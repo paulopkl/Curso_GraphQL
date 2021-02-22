@@ -1,7 +1,6 @@
 <template>
     <div v-if="itens">
-        <v-alert v-for="i in itens"
-            :key="i.message" :value="true" type="error">
+        <v-alert v-for="i in itens" :key="i.message" :value="true" type="error">
             {{ i.message }}
         </v-alert>
     </div>
@@ -12,13 +11,15 @@ export default {
     props: ['erros'],
     computed: {
         itens() {
-            if(!this.erros) return null
-            const e = this.erros
+            if(!this.erros) return null;
+            const e = this.erros;
 
-            const itens = []
+            const itens = [];
             
+            console.log(this.erros);
+
             if(e.graphQLErrors) {
-                itens.push(...e.graphQLErrors)
+                itens.push(...e.graphQLErrors);
             }
             
             // if(e.networkError) {
@@ -26,17 +27,13 @@ export default {
             // }
 
             if(itens.length === 0) {
-                itens.push({
-                    message: 'Erro! Preencheu o formulário?'
-                })
+                itens.push({ message: 'Erro! Preencheu o formulário?' });
             }
 
-            return itens
+            return itens;
         }
     }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

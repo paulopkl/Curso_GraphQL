@@ -1,37 +1,37 @@
 <template>
 	<v-layout column>
 		<v-flex>
-			<UsuarioLogado />
+			<UserLogged />
 		</v-flex>
 		<v-flex>
-			<v-tabs centered  dark icons-and-text>
+			<v-tabs centered dark icons-and-text>
 				<v-tabs-slider color="white"></v-tabs-slider>
 
 				<v-tab>
-					Autenticação
+					Authentication
 					<v-icon>fingerprint</v-icon>
 				</v-tab>
 
 				<v-tab>
-					Usuários
+					Users
 					<v-icon>people</v-icon>
 				</v-tab>
 
 				<v-tab>
-					Perfis
+					Profiles
 					<v-icon>how_to_reg</v-icon>
 				</v-tab>
 
 				<v-tab-item>
-					<AutenticacaoAbas />
+					<AuthenticationTabs />
 				</v-tab-item>
 
 				<v-tab-item>
-					<UsuarioAbas />
+					<UserTabs />
 				</v-tab-item>
 
 				<v-tab-item>
-					<PerfilAbas />
+					<ProfileTabs />
 				</v-tab-item>
 			</v-tabs>
 		</v-flex>
@@ -39,21 +39,19 @@
 </template>
 
 <script>
-import AutenticacaoAbas from './autenticacao/Abas'
-import UsuarioLogado from './autenticacao/UsuarioLogado'
-import UsuarioAbas from './usuario/Abas'
-import PerfilAbas from './perfil/Abas'
+import AuthenticationTabs from './autenticacao/Tabs';
+import UserLogged from './autenticacao/UserLogged';
+import UserTabs from './usuario/Tabs';
+import ProfileTabs from './perfil/Tabs';
 
 export default {
 	components: {
-		AutenticacaoAbas,
-		UsuarioLogado,
-		UsuarioAbas,
-		PerfilAbas,
+		AuthenticationTabs,
+		UserLogged,
+		UserTabs,
+		ProfileTabs,
 	},
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

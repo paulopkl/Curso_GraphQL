@@ -27,14 +27,15 @@ const mutations = {
                 ];
             }
 
+            // If data.profiles is True
             if (data.profiles) {
                 for(let profileFilter of data.profiles) {
-                    const profile = await getProfile(_, { filter: { ...profileFilter } })
+                    const profile = await getProfile(_, { filter: { ...profileFilter } });
 
                     if (profile) idsProfiles.push(profile.id);
                 }
 
-                // Encrypt password
+                // Encrypt the password
                 const salt = bcrypt.genSaltSync(10/* <-- Rounds */);
                 data.password = bcrypt.hashSync(data.password, salt); // Overwrite the password with crypt
 
@@ -132,14 +133,18 @@ const mutations = {
                 delete data.profiles;
                 await db('users')
                     .where({ id })
-                    .update(data)
+                    .update(data);
             }
 
-            return !user ? null : { ...user, ...data };
+            if (!user) {
+                throw new Error({ sqlMessage: 'Blank Fields!!' })
+            }
+
+            return { ...user, ...data };
         } catch (err) {
             throw new Error(err.sqlMessage);
         }
     }
 }
 
-module.exports = mutations
+module.exports = mutations;

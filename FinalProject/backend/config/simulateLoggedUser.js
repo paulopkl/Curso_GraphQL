@@ -23,7 +23,7 @@ const getUser = async profileName => {
 }
 
 module.exports = async req => {
-    // const user = await getUser('common');
+    const user = await getUser('admin');
 
     if (user) {
         const { token } = await getLoggedUser(user);

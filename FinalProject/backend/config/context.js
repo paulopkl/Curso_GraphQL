@@ -2,7 +2,7 @@ const jwt = require('jwt-simple');
 
 module.exports = async ({ req }) => {
 
-    await require('./simulateLoggedUser')(req);
+    // await require('./simulateLoggedUser')(req);
     
     const auth = req.headers.authorization;
     const tokenOnly = auth && auth.substring(7);

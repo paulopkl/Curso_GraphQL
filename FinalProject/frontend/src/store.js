@@ -4,20 +4,33 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state: { usuario: null, },
+    state: {
+        user: {
+            // id: 1,
+            // name: "Test",
+            // email: "test@email.com",
+            // profiles: [
+            //     { name: "admin" }
+            // ],
+            // token: 'abc123'
+        }
+    },
     mutations: {
-        setUsuario(state, usuario) {
-            state.usuario = usuario
+        setUser(state, user) {
+            state.user = user;
         }
     },
     getters: {
-        usuario(state) {
-            return state.usuario
+        user(state) {
+            return state.user;
         },
     },
     actions: {
-        setUsuario({ commit }, usuario) {
-            commit('setUsuario', usuario)
+        setUser({ commit }, user) {
+            if (user && user.token) localStorage.setItem('token', user.token)
+            else localStorage.removeItem('token');
+
+            commit('setUser', user);
         }
     }
 });

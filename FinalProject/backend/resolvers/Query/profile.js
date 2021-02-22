@@ -3,7 +3,6 @@ const db = require('../../config/db');
 module.exports = {
     profiles: (obj, args, context) => {
         context && context.validateAdmin();
-        console.log(obj);
         
         return db('profiles');
     },

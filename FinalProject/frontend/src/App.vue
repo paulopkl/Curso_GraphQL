@@ -8,21 +8,21 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <Conteudo />
+      <Content />
     </v-content>
   </v-app>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import Conteudo from './componentes/Conteudo';
+import Content from './componentes/Content';
 
 export default {
 	name: 'App',
-	components: { Conteudo },
-	methods: mapActions(['setUsuario']),
+	components: { Content },
+	methods: mapActions(['setUser']),
 	created() {
-		this.setUsuario(null)
+		// this.setUser(null)
 	}
 }
 </script>
